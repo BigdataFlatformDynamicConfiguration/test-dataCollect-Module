@@ -1,0 +1,21 @@
+{
+  "name": "youtubeapi-datacollect-module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BigdataFlatformDynamicConfiguration/YoutubeAPI-dataCollect-module.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BigdataFlatformDynamicConfiguration/YoutubeAPI-dataCollect-module/issues"
+  },
+  "homepage": "https://github.com/BigdataFlatformDynamicConfiguration/YoutubeAPI-dataCollect-module#readme",
+  "dependencies": {}
+}
