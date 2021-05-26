@@ -17,5 +17,7 @@
     "url": "https://github.com/BigdataFlatformDynamicConfiguration/YoutubeAPI-dataCollect-module/issues"
   },
   "homepage": "https://github.com/BigdataFlatformDynamicConfiguration/YoutubeAPI-dataCollect-module#readme",
-  "dependencies": {}
+  "dependencies": {
+    "dbf-js": "^1.2.1"
+  }
 }
