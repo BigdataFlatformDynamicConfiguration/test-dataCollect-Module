@@ -1,5 +1,5 @@
 const pythonInfo ={
-    "host" : "34.64.100.75",
+    "host" : "34.64.94.147",
     "port" : "2000",
 }
 const sourceInfo = {

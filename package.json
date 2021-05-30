@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/BigdataFlatformDynamicConfiguration/YoutubeAPI-dataCollect-module#readme",
   "dependencies": {
+    "axios": "^0.21.1",
+    "bufferlist": "^0.1.0",
     "dbf-js": "^1.2.1"
   }
 }
