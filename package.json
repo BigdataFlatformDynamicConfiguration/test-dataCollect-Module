@@ -20,6 +20,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bufferlist": "^0.1.0",
-    "dbf-js": "^1.2.1"
+    "dbf-js": "^1.2.1",
+    "excel": "^1.0.1",
+    "xlsx": "^0.17.0",
+    "xml2js": "^0.4.23"
   }
 }

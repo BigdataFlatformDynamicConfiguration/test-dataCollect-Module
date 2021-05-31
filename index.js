@@ -1,6 +1,15 @@
 const python = require('./modules/pythonM');
 const config = require('./config');
-//const {head,data} = require('./modules/dbfParser').readFile(config.sourceInfo.path);
+const parser = require("xlsx");
+
+let excel = parser.readFile(config.sourceInfo.path);
+let data = excel.Sheets["F_FAC_BUILDING_27_202105"];
+
+// console.log(data['B6']);
+
+// python.getTest('/').then((res)=>{
+//     console.log(res);
+// });
 
 // python.getTest('/delete-table?table_name=Daegue').then((res)=>{
 //     console.log(res);
@@ -20,25 +29,35 @@ const config = require('./config');
 //     console.log(res);
 // });
 
-// const keys = Object.keys(data[0]).slice(2);
-// let idx=0;
+// function emptyChecker(item, value, target){
+//     if (value != undefined)
+//         item[target] = value['v'];
+// }
+
+// const cols = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',];
+// const keys = cols.map(i=>{
+//     return data[i+'1']['v'];
+// });
+// let idx=2;
 // let tester = 1;
 // const timer = setInterval(()=>{
 //     let items = [];
 //     for(let i=0; i<100;i++){
 //         let item = {};
-//         item['ID:UFID'] = data[idx]['UFID'];
-//         item['ID:BLD_NM'] = data[idx]['BLD_NM'];
-//         item['ID:DONG_NM'] = data[idx]['DONG_NM'];
+//         emptyChecker(item,data['A'+idx],'ID:UFID');
+//         emptyChecker(item,data['B'+idx],'ID:BLD_NM');
+//         emptyChecker(item,data['C'+idx],'ID:DONG_NM');
 //         for(let j=3; j<keys.length; j++){
-//             item['DATA:'+keys[j]] = data[idx][keys[j]].toString();
+//             emptyChecker(item,data[cols[j]+idx],'DATA:'+keys[j]);
 //         }
-//         items.push(item);
-//         idx += 1;
-//         if (idx == data.length){
+//         if (Object.keys(item).length == 0){
+//             console.log('end');
 //             clearInterval(timer);
 //             break;
 //         }
+//         console.log(idx);
+//         items.push(item);
+//         idx += 1;
 //     }
 //     python.postTest('/put-rows',{
 //         'table_name' : 'Daegue',
@@ -48,10 +67,10 @@ const config = require('./config');
 //         tester += 1;
 //     });
 // },1000);
-
-python.postTest('/scan',{
-     'table' : 'Daegue',
-     'filter' : "SingleColumnValueFilter ('ID','BLD_NM',=,'경북대학교')",
-}).then((res)=>{
-     console.log(res);
-});
+// python.postTest('/scan',{
+//      'table' : 'Daegue',
+//      'filter' : "SingleColumnValueFilter ('ID','UFID',=,'2002164791842653460600000000')",
+// }).then((res)=>{
+//      console.log(res);
+// });
+// console.log(escape("경북대학교"))
