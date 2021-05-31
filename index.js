@@ -69,7 +69,7 @@ const parser = require("xlsx");
 // },1000);
 python.postTest('/scan',{
      'table' : 'Daegue',
-     'filter' : "SingleColumnValueFilter('ID','UFID',=,'binary:2003162242572638627600000000')",
+     'filter' : "SingleColumnValueFilter('ID','BLD_NM',=,'binary:경북대학교',true,true)",
 }).then((res)=>{
      console.log(res);
 });
