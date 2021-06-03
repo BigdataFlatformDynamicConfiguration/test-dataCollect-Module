@@ -42,7 +42,7 @@ let idx=2;
 let tester = 1;
 const timer = setInterval(()=>{
     let items = [];
-    for(let i=0; i<1000;i++){
+    for(let i=0; i<10000;i++){
         let item = {};
         emptyChecker(item,data['A'+idx],'ID:UFID');
         emptyChecker(item,data['B'+idx],'ID:BLD_NM');
@@ -61,7 +61,7 @@ const timer = setInterval(()=>{
     }
     python.postTest('/put-rows',{
         'table_name' : 'Daegue_data',
-        'data' : items,
+        'data' : JSON.stringify(items)
     }).then((res)=>{
         console.log(res);
         tester += 1;
