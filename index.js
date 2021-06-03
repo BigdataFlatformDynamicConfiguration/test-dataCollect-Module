@@ -2,9 +2,6 @@ const python = require('./modules/pythonM');
 const config = require('./config');
 const parser = require("xlsx");
 
-let excel = parser.readFile(config.sourceInfo.path);
-let data = excel.Sheets["F_FAC_BUILDING_27_202105"];
-
 // console.log(data['B6']);
 
 // python.getTest('/').then((res)=>{
@@ -29,44 +26,50 @@ let data = excel.Sheets["F_FAC_BUILDING_27_202105"];
 //     console.log(res);
 // });
 
-function emptyChecker(item, value, target){
-    if (value != undefined)
-        item[target] = value['v'].toString();
-}
 
-const cols = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',];
-const keys = cols.map(i=>{
-    return data[i+'1']['v'];
-});
-let idx=2;
-let tester = 1;
-const timer = setInterval(()=>{
-    let items = [];
-    for(let i=0; i<10000;i++){
-        let item = {};
-        emptyChecker(item,data['A'+idx],'ID:UFID');
-        emptyChecker(item,data['B'+idx],'ID:BLD_NM');
-        emptyChecker(item,data['C'+idx],'ID:DONG_NM');
-        for(let j=3; j<keys.length; j++){
-            emptyChecker(item,data[cols[j]+idx],'DATA:'+keys[j]);
-        }
-        if (Object.keys(item).length == 0){//Object.keys(item).length == 0 
-            console.log('end');
-            clearInterval(timer);
-            break;
-        }
-        console.log(idx);
-        items.push(item);
-        idx += 1;
+(()=>{
+    let excel = parser.readFile(config.sourceInfo.path);
+    let data = excel.Sheets["F_FAC_BUILDING_27_202105"];
+
+    function emptyChecker(item, value, target){
+        if (value != undefined)
+            item[target] = value['v'].toString();
     }
-    python.postTest('/put-rows',{
-        'table_name' : 'Daegue_data',
-        'data' : JSON.stringify(items)
-    }).then((res)=>{
-        console.log(res);
-        tester += 1;
+    
+    const cols = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',];
+    const keys = cols.map(i=>{
+        return data[i+'1']['v'];
     });
-},10000);
+    let idx=2;
+    let tester = 1;
+    const timer = setInterval(()=>{
+        let items = [];
+        for(let i=0; i<5000;i++){
+            let item = {};
+            emptyChecker(item,data['A'+idx],'ID:UFID');
+            emptyChecker(item,data['B'+idx],'ID:BLD_NM');
+            emptyChecker(item,data['C'+idx],'ID:DONG_NM');
+            for(let j=3; j<keys.length; j++){
+                emptyChecker(item,data[cols[j]+idx],'DATA:'+keys[j]);
+            }
+            if (idx == 5000){//Object.keys(item).length == 0 
+                console.log('end');
+                clearInterval(timer);
+                break;
+            }
+            console.log(idx);
+            items.push({"key":idx,"data":item});
+            idx += 1;
+        }
+        python.postTest('/put-rows',{
+            'table_name' : 'Daegue_data',
+            'data' : items
+        }).then((res)=>{
+            console.log(res);
+            tester += 1;
+        });
+    },10000);
+})();
 
 // item = {
 //      'ID:UFID': '1970168435422654774600000000', 
