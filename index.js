@@ -12,15 +12,7 @@ const parser = require("xlsx");
 //     console.log(res);
 // });
 
-// python.postTest('/create-table',{
-//      'table_name' : 'Daegue_data',
-//      'column_family_name' : {
-//          'ID': {},
-//          'DATA': {},
-//      }
-// }).then((res)=>{
-//      console.log(res);
-// });
+//python.postTest('/create-table',{     'table_name' : 'Daegue_data',     'column_family_name' : {         'ID': {},         'DATA': {},     }}).then((res)=>{     console.log(res);});
 
 // python.getTest('/table-list').then((res)=>{
 //     console.log(res);
@@ -44,7 +36,7 @@ const parser = require("xlsx");
     let tester = 1;
     const timer = setInterval(()=>{
         let items = [];
-        for(let i=0; i<5000;i++){
+        for(let i=0; i<50;i++){
             let item = {};
             emptyChecker(item,data['A'+idx],'ID:UFID');
             emptyChecker(item,data['B'+idx],'ID:BLD_NM');
@@ -52,23 +44,23 @@ const parser = require("xlsx");
             for(let j=3; j<keys.length; j++){
                 emptyChecker(item,data[cols[j]+idx],'DATA:'+keys[j]);
             }
-            if (idx == 5000){//Object.keys(item).length == 0 
+            if (idx == 10000){//Object.keys(item).length == 0 
                 console.log('end');
                 clearInterval(timer);
                 break;
             }
             console.log(idx);
-            items.push({"key":idx,"data":item});
+            items.push({"rowkey":idx.toString(),"data":item});
             idx += 1;
         }
         python.postTest('/put-rows',{
             'table_name' : 'Daegue_data',
-            'data' : items
+            'datalist' : items
         }).then((res)=>{
             console.log(res);
             tester += 1;
         });
-    },10000);
+    },5000);
 })();
 
 // item = {
@@ -90,10 +82,11 @@ const parser = require("xlsx");
 //      'DATA:GEOIDN': 'B00100000004GKPAH', 
 //      'DATA:BD_MGT_SN': '2714011000110000049006523', 
 //      'DATA:SGG_OID': '66022', 
-//      'DATA:COL_ADM_SE': '27140'}
+//      'DATA:COL_ADM_SE': '27140'
+//     }
 // python.postTest('/put-rows',{
 //      'table_name' : 'Daegue_data',
-//      'data' : [item],
+//      'datalist' : [{"rowkey":"1","data":item}],
 //  }).then((res)=>{
 //      console.log(res);
 //  });
