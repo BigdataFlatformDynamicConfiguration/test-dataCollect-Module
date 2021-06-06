@@ -12,7 +12,7 @@ const parser = require("xlsx");
 //     console.log(res);
 // });
 
-//python.postTest('/create-table',{     'table_name' : 'Daegue_data',     'column_family_name' : {         'ID': {},         'DATA': {},     }}).then((res)=>{     console.log(res);});
+//python.postTest('/create-table',{     'table_name' : 'Busan_data',     'column_family_name' : {         'ID': {},         'DATA': {},     }}).then((res)=>{     console.log(res);});
 
 // python.getTest('/table-list').then((res)=>{
 //     console.log(res);
@@ -21,22 +21,22 @@ const parser = require("xlsx");
 
 (()=>{
     let excel = parser.readFile(config.sourceInfo.path);
-    let data = excel.Sheets["F_FAC_BUILDING_27_202105"];
-
+    let data = excel.Sheets["F_FAC_BUILDING_26_202105"];
+    console.log("begin");
     function emptyChecker(item, value, target){
         if (value != undefined)
             item[target] = value['v'].toString();
     }
-    
+    const places = ['동아대학교', '부산대학교', '해양대학교', '고신대학교', '동의대학교', '인제대학교', '부산여자대학교', '부경대학교', '동명대학교', '경성대학교', '부산외국어대학', '한국폴리텍대학', '부산과학기술대학교', '성심외국어전문대학', '동부산대학교', '부산가톨릭대학교', '대동대학교', '부산교육대학교', '신라대학교', '동서대학교']
     const cols = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',];
     const keys = cols.map(i=>{
         return data[i+'1']['v'];
     });
-    let idx=145000;
+    let idx=2;
     let tester = 1;
     const timer = setInterval(()=>{
         let items = [];
-        for(let i=0; i<100;i++){
+        for(let i=0; i<40000;i++){
             let item = {};
             emptyChecker(item,data['A'+idx],'ID:UFID');
             emptyChecker(item,data['B'+idx],'ID:BLD_NM');
@@ -44,23 +44,25 @@ const parser = require("xlsx");
             for(let j=3; j<keys.length; j++){
                 emptyChecker(item,data[cols[j]+idx],'DATA:'+keys[j]);
             }
-            if (idx == 155000){//Object.keys(item).length == 0 
+            if (idx == 100000){//Object.keys(item).length == 0
                 console.log('end');
                 clearInterval(timer);
                 break;
             }
-            console.log(idx);
-            items.push({"rowkey":idx.toString(),"data":item});
+            if (places.includes(item['ID:BLD_NM'])){//places.includes(item['ID:BLD_NM'])
+                console.log(idx);
+                items.push({"rowkey":idx.toString(),"data":item});
+            }
             idx += 1;
         }
         python.postTest('/put-rows',{
-            'table_name' : 'Daegue_data',
+            'table_name' : 'Busan_data',
             'datalist' : items,
         }).then((res)=>{
             console.log(res);
             tester += 1;
         });
-    },3000);
+    },60000);
 })();
 
 // item = {
