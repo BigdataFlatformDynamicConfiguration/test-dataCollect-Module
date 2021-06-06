@@ -32,11 +32,11 @@ const parser = require("xlsx");
     const keys = cols.map(i=>{
         return data[i+'1']['v'];
     });
-    let idx=2;
+    let idx=145000;
     let tester = 1;
     const timer = setInterval(()=>{
         let items = [];
-        for(let i=0; i<50;i++){
+        for(let i=0; i<100;i++){
             let item = {};
             emptyChecker(item,data['A'+idx],'ID:UFID');
             emptyChecker(item,data['B'+idx],'ID:BLD_NM');
@@ -44,7 +44,7 @@ const parser = require("xlsx");
             for(let j=3; j<keys.length; j++){
                 emptyChecker(item,data[cols[j]+idx],'DATA:'+keys[j]);
             }
-            if (idx == 10000){//Object.keys(item).length == 0 
+            if (idx == 155000){//Object.keys(item).length == 0 
                 console.log('end');
                 clearInterval(timer);
                 break;
@@ -55,12 +55,12 @@ const parser = require("xlsx");
         }
         python.postTest('/put-rows',{
             'table_name' : 'Daegue_data',
-            'datalist' : items
+            'datalist' : items,
         }).then((res)=>{
             console.log(res);
             tester += 1;
         });
-    },5000);
+    },3000);
 })();
 
 // item = {
